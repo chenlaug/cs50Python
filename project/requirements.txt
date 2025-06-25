@@ -1,0 +1,5 @@
+cryptography
+colorama
+tabulate
+pytest
+pytest-cov
