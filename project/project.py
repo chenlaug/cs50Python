@@ -18,7 +18,7 @@ colors = {
 
 
 def main() -> None:
-    print("Welcome to the Password Manager !")
+    print("Welcome to the PyCryptBox !")
     pm = generate_key_password_manager()
 
     while True:
