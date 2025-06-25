@@ -49,6 +49,6 @@
 
 ## Author:
 - [Laughan Chenevot](<https://github.com/chenlaug>)
-- [GitHub Repository](<Your%20GitHub%20Repository%20URL>)
+- [GitHub Repository](<https://github.com/chenlaug/cs50Python>)
 - [LinkedIn Profile](<https://www.linkedin.com/in/laughan-chenevot/>)
 
