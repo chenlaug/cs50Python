@@ -1,13 +1,14 @@
-# PyCryptBox
+# Secure Password Manager
 ## Video Demo:  <URL HERE>
 ## Description:
-    This project is a secure password manager developed in Python. It enables users to safely store, retrieve, add, and delete credentials (including website, username, and password) using encryption. The program runs in a command-line interface with a user-friendly menu, enhanced by colored output and tabular formatting for better readability.
+    This project is a secure password manager developed in Python. It enables users to safely store, retrieve, add, update, and delete credentials (including website, username, and password) using encryption. The program runs in a command-line interface with a user-friendly menu, enhanced by colored output and tabular formatting for better readability.
 ## Features:
 - 🔐 Add new credentials (site, username, password)
 - 🔍 Search credentials by site name or username
 - 🗑️ Delete credentials from the list
 - 🧠 Encrypt and decrypt passwords using the `cryptography` library
 - 📋 Display credentials in a clean table format using `tabulate`
+- 🛠️ Update existing credentials (site, username, or password)
 - 🌈 Colorful terminal interface with `colorama`
 
 ## Project Structure:
