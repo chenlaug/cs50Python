@@ -21,9 +21,11 @@ def test_add_credential(pm):
 
 
 def test_find_credential_existing(pm):
+    pm.add_credential("example.com", "user1", "pass123")
     result = pm.find_credential("example.com")
     assert isinstance(result, Credential)
     assert result.username == "user1"
+    assert pm.decrypt_password(result.password) == "pass123"
 
 
 def test_find_credential_not_found(pm):
