@@ -6,6 +6,7 @@ from tabulate import tabulate
 from Data.color_enum import Color
 from Data.credential import Credential
 from Data.password_manager import PasswordManager
+from pyfiglet import Figlet
 
 colors = {
     Color.RED: Fore.RED,
@@ -18,7 +19,8 @@ colors = {
 
 
 def main() -> None:
-    print("Welcome to the PyCryptBox !")
+    figlet = Figlet()
+    print(figlet.renderText("PyCryptBox !"))
     pm = generate_key_password_manager()
 
     while True:
@@ -44,8 +46,9 @@ def menu() -> None:
     print(print_color("🔍 3. Search for a credential with the true password", Color.CYAN))
     print(print_color("❌ 4. Delete a credential", Color.CYAN))
     print(print_color("📋 5. List all credentials", Color.CYAN))
-    print(print_color("💾 6. Save", Color.CYAN))
-    print(print_color("🚪 7. Exit", Color.CYAN))
+    print(print_color("🛠️ 6. Update a credentials", Color.CYAN))
+    print(print_color("💾 7. Save", Color.CYAN))
+    print(print_color("🚪 8. Exit", Color.CYAN))
 
 def use_menu(command: str, pm: PasswordManager) -> None:
     match command.strip().lower():
@@ -56,9 +59,14 @@ def use_menu(command: str, pm: PasswordManager) -> None:
                 username=input_color("Enter the username: "),
                 password=input_color("Enter the password: ")
             )
+            return None
         case "2":
             print(print_color("Search for a credential", Color.BLUE))
-            print(pm.find_credential(input_color("Enter the site name: ")))
+            credential = pm.find_credential(input_color("Enter the site name: "))
+            if isinstance(credential, Credential):
+                print(print_color(f"Site: {credential.site} Username: {credential.username} Password: {credential.password}", Color.MAGENTA))
+            else:
+                print(print_color(credential, Color.RED))
         case "3":
             print(print_color("Search for a credential with the true password", Color.BLUE))
             print(pm.show_credential_with_true_password(input_color("Enter the site name: ")))
@@ -69,9 +77,52 @@ def use_menu(command: str, pm: PasswordManager) -> None:
             print(print_color("List all credentials", Color.BLUE))
             show_credentials(pm)
         case "6":
+            print_color("Update credentials...", Color.BLUE)
+            site = input_color("Enter the site name: ")
+            credential = pm.find_credential(site)
+
+            if not isinstance(credential, Credential):
+                print(print_color(credential, Color.RED))
+                return None
+
+            print(print_color(
+                f"Current → Site: {credential.site}, Username: {credential.username}, Password: {pm.decrypt_password(credential.password)}",
+                Color.MAGENTA))
+
+            print(print_color("1. Site", Color.CYAN))
+            print(print_color("2. Username", Color.CYAN))
+            print(print_color("3. Password", Color.CYAN))
+            print(print_color("4. All", Color.CYAN))
+
+            while True:
+                try:
+                    choice = input_color("What would you like to change? (1/2/3/4): ")
+                    if choice not in {"1", "2", "3", "4"}:
+                        raise ValueError("Invalid choice. Please enter 1, 2, 3, or 4.")
+
+                    new_values = {}
+                    if choice == "1":
+                        new_values["site"] = input_color("Enter new site: ")
+                    elif choice == "2":
+                        new_values["username"] = input_color("Enter new username: ")
+                    elif choice == "3":
+                        new_values["password"] = input_color("Enter new password: ")
+                    elif choice == "4":
+                        new_values["site"] = input_color("Enter new site: ")
+                        new_values["username"] = input_color("Enter new username: ")
+                        new_values["password"] = input_color("Enter new password: ")
+
+                    result = pm.update_credential(site, choice, new_values)
+                    print_color(result, Color.GREEN if "successfully" in result else Color.RED)
+                    break
+
+                except ValueError as e:
+                    print_color(f"❌ Error: {e}", Color.RED)
+
+        case "7":
             print(print_color("Saving credentials...", Color.BLUE))
             pm.save()
-        case "7":
+        case "8":
             print(print_color(" See you soon !", Color.MAGENTA))
             sys.exit(1)
         case _:
@@ -94,7 +145,7 @@ def generate_key_password_manager() -> PasswordManager:
     pm.load()
     return pm
 
-def print_color(txt: str | Credential, color: Color) -> str:
+def print_color(txt: str, color: Color) -> str:
     return f"{colors.get(color)}{txt}{Style.RESET_ALL}"
 
 def input_color(txt: str, color: Color = Color.YELLOW) -> str:
