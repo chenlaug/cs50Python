@@ -7,16 +7,39 @@ from Data.credential import Credential
 
 class PasswordManager:
     def __init__(self):
-        self.credentials: list[Credential] = [
-            Credential("example.com", "user1",
-                       "gAAAAABoWuvGdztgEOcZdTh-T4jXEhF6_uEnuDDNKfl-WJd8JSyn1YDeiv0PtzOuesbH1zV4HqMAahyne3reXMzFqiqDhFiD1g==") ]
+        self.credentials: list[Credential] = []
         self.key = None
         self.fernet = None
 
     def add_credential(self, site: str, username: str, password: str) -> None:
+        site = site.lower()
+        username = username.strip()
+        password = password.strip()
         encrypted_password = self.encrypt_password(password)
         credential = Credential(site, username, encrypted_password)
         self.credentials.append(credential)
+
+    def update_credential(self, site: str, choice: str, new_values: dict) -> str:
+        for credential in self.credentials:
+            if credential.site == site:
+                if choice == "1":
+                    credential.site = new_values.get("site", credential.site).lower()
+                elif choice == "2":
+                    credential.username = new_values.get("username", credential.username)
+                elif choice == "3":
+                    new_password = new_values.get("password")
+                    if new_password:
+                        credential.password = self.encrypt_password(new_password)
+                elif choice == "4":
+                    credential.site = new_values.get("site", credential.site).lower()
+                    credential.username = new_values.get("username", credential.username)
+                    password = new_values.get("password")
+                    if password:
+                        credential.password = self.encrypt_password(password)
+                else:
+                    return "Invalid choice."
+                return "Credential updated successfully."
+        return f"Identifier not found for the site: {site}"
 
     def find_credential(self, site: str) -> Credential | str:
         for credential in self.credentials:
