@@ -47,8 +47,7 @@ def menu() -> None:
     print(print_color("❌ 4. Delete a credential", Color.CYAN))
     print(print_color("📋 5. List all credentials", Color.CYAN))
     print(print_color("🛠️ 6. Update a credentials", Color.CYAN))
-    print(print_color("💾 7. Save", Color.CYAN))
-    print(print_color("🚪 8. Exit", Color.CYAN))
+    print(print_color("🚪 7. Exit", Color.CYAN))
 
 def use_menu(command: str, pm: PasswordManager) -> None:
     match command.strip().lower():
@@ -118,12 +117,9 @@ def use_menu(command: str, pm: PasswordManager) -> None:
 
                 except ValueError as e:
                     print_color(f"❌ Error: {e}", Color.RED)
-
         case "7":
-            print(print_color("Saving credentials...", Color.BLUE))
-            pm.save()
-        case "8":
             print(print_color(" See you soon !", Color.MAGENTA))
+            pm.save()
             sys.exit(1)
         case _:
             raise ValueError("❗ Unknown command, please try again.")
