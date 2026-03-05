@@ -3,3 +3,4 @@ colorama
 tabulate
 pytest
 pytest-cov
+pyfiglet

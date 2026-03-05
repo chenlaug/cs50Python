@@ -1,19 +1,27 @@
 import pytest
 from Data.color_enum import Color
 
-def test_color_enum_members():
-    assert Color.RED.value == 1
-    assert Color.GREEN.value == 2
-    assert Color.BLUE.value == 3
-    assert Color.YELLOW.value == 4
-    assert Color.CYAN.value == 5
-    assert Color.MAGENTA.value == 6
+
+def test_color_enum_values():
+    assert Color.RED.value == "red"
+    assert Color.GREEN.value == "green"
+    assert Color.BLUE.value == "blue"
+    assert Color.YELLOW.value == "yellow"
+    assert Color.CYAN.value == "cyan"
+    assert Color.MAGENTA.value == "magenta"
+
 
 def test_color_enum_names():
-    assert Color(1).name == "RED"
-    assert Color(6).name == "MAGENTA"
+    assert Color["RED"] == Color.RED
     assert Color["CYAN"] == Color.CYAN
+    assert Color["MAGENTA"] == Color.MAGENTA
+
+
+def test_color_enum_all_members():
+    members = [c.name for c in Color]
+    assert set(members) == {"RED", "GREEN", "BLUE", "YELLOW", "CYAN", "MAGENTA"}
+
 
 def test_color_enum_invalid():
     with pytest.raises(ValueError):
-        Color(99)
+        Color("purple")

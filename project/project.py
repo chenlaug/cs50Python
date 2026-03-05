@@ -58,6 +58,7 @@ def use_menu(command: str, pm: PasswordManager) -> None:
                 username=input_color("Enter the username: "),
                 password=input_color("Enter the password: ")
             )
+            pm.save()
             return None
         case "2":
             print(print_color("Search for a credential", Color.BLUE))
@@ -76,7 +77,7 @@ def use_menu(command: str, pm: PasswordManager) -> None:
             print(print_color("List all credentials", Color.BLUE))
             show_credentials(pm)
         case "6":
-            print_color("Update credentials...", Color.BLUE)
+            print(print_color("Update credentials...", Color.BLUE))
             site = input_color("Enter the site name: ")
             credential = pm.find_credential(site)
 
@@ -112,7 +113,8 @@ def use_menu(command: str, pm: PasswordManager) -> None:
                         new_values["password"] = input_color("Enter new password: ")
 
                     result = pm.update_credential(site, choice, new_values)
-                    print_color(result, Color.GREEN if "successfully" in result else Color.RED)
+                    print(print_color(result, Color.GREEN if "successfully" in result else Color.RED))
+                    pm.save()
                     break
 
                 except ValueError as e:

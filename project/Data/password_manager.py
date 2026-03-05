@@ -42,6 +42,7 @@ class PasswordManager:
         return f"Identifier not found for the site: {site}"
 
     def find_credential(self, site: str) -> Credential | str:
+        site = site.lower()
         for credential in self.credentials:
             if credential.site == site:
                 return credential
