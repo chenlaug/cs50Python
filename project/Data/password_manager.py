@@ -49,6 +49,7 @@ class PasswordManager:
         return f"Identifier not found for the site: {site}"
 
     def delete_credential(self, site: str) -> str:
+        site = site.lower()
         for credential in self.credentials:
             if credential.site == site:
                 self.credentials.remove(credential)

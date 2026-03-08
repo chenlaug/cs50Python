@@ -118,11 +118,11 @@ def use_menu(command: str, pm: PasswordManager) -> None:
                     break
 
                 except ValueError as e:
-                    print_color(f"❌ Error: {e}", Color.RED)
+                    print(print_color(f"❌ Error: {e}", Color.RED))
         case "7":
             print(print_color(" See you soon !", Color.MAGENTA))
             pm.save()
-            sys.exit(1)
+            sys.exit(0)
         case _:
             raise ValueError("❗ Unknown command, please try again.")
 
