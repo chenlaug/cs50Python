@@ -13,8 +13,6 @@ def pm(tmp_path, monkeypatch):
     return manager
 
 
-# --- add_credential ---
-
 def test_add_credential_stores_credential(pm):
     pm.add_credential("site.com", "user", "pass")
     cred = pm.find_credential("site.com")
@@ -34,8 +32,6 @@ def test_add_credential_encrypts_password(pm):
     assert cred.password != "secret"
 
 
-# --- find_credential ---
-
 def test_find_credential_returns_credential(pm):
     pm.add_credential("example.com", "user1", "pass123")
     result = pm.find_credential("example.com")
@@ -54,8 +50,6 @@ def test_find_credential_not_found_raises(pm):
         pm.find_credential("unknown.com")
 
 
-# --- show_credential_with_true_password ---
-
 def test_show_credential_with_true_password(pm):
     pm.add_credential("site.com", "user", "mypassword")
     result = pm.show_credential_with_true_password("site.com")
@@ -69,8 +63,6 @@ def test_show_credential_not_found_raises(pm):
         pm.show_credential_with_true_password("notfound.com")
 
 
-# --- delete_credential ---
-
 def test_delete_credential_removes_it(pm):
     pm.add_credential("site.com", "user", "pass")
     msg = pm.delete_credential("site.com")
@@ -83,8 +75,6 @@ def test_delete_credential_not_found_raises(pm):
     with pytest.raises(ValueError, match="No login information found"):
         pm.delete_credential("notfound.com")
 
-
-# --- update_credential ---
 
 def test_update_credential_site(pm):
     pm.add_credential("old.com", "user", "pass")
@@ -119,8 +109,6 @@ def test_update_credential_not_found_raises(pm):
         pm.update_credential("notfound.com", "new.com", "user", "pass")
 
 
-# --- list_credentials ---
-
 def test_list_credentials_empty(pm):
     assert pm.list_credentials() == []
 
@@ -132,8 +120,6 @@ def test_list_credentials_returns_all(pm):
     assert len(creds) == 2
     assert all(isinstance(c, Credential) for c in creds)
 
-
-# --- load / save ---
 
 def test_load_missing_file_raises(pm, tmp_path):
     with pytest.raises(FileNotFoundError):

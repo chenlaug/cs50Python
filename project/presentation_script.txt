@@ -1,0 +1,56 @@
+PRESENTATION SCRIPT — PyCryptBox
+=================================
+
+--- INTRODUCTION ---
+
+"Hello everyone. Today I'm going to present my final project for CS50P.
+It's called PyCryptBox — a command-line password manager written in Python."
+
+
+--- THE PROBLEM ---
+
+"We all have too many passwords. Most people reuse the same one, which is a serious security risk.
+I wanted to build a simple tool to store passwords safely, directly from the terminal."
+
+
+--- WHAT IT DOES ---
+
+"PyCryptBox lets you add, search, view, update, and delete credentials
+— like a site name, a username, and a password.
+Everything is protected by a master password that you set on the first run."
+
+
+--- HOW IT WORKS — SECURITY ---
+
+"The master password is hashed using PBKDF2-HMAC-SHA256 with a random salt and 100,000 iterations.
+You only get 3 attempts before the app locks you out.
+
+Stored passwords are encrypted with Fernet — which uses AES-128 encryption.
+The key never leaves your machine."
+
+
+--- CODE ARCHITECTURE ---
+
+"I used a class-based architecture with four classes:
+Credential, PasswordManager, Menu, and ColorManager.
+Each one has a single responsibility, which makes the code clean and easy to test."
+
+
+--- DEMO ---
+
+"Let me show you a quick demo.
+I'll add a credential, list all saved passwords, and then search for one."
+
+
+--- CONCLUSION ---
+
+"That's PyCryptBox. It's a practical project that combines Python, encryption, and clean design.
+Thank you for listening — I'm happy to take any questions."
+
+
+=================================
+USEFUL WORDS TO PRONOUNCE:
+- password manager  → "PASSword MANager"
+- encrypted         → "en-KRYP-tid"
+- credentials       → "kre-DEN-shals"
+- architecture      → "AR-ki-tek-chur"
