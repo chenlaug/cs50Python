@@ -36,12 +36,18 @@ class Credential:
     # Setters for the properties
     @site.setter
     def site(self, value: str) -> None:
+        if not value.strip():
+            raise ValueError("Site can't be null")
         self._site = value
 
     @username.setter
     def username(self, value: str) -> None:
+        if not value.strip():
+            raise ValueError("Username can't be null")
         self._username = value
 
     @password.setter
     def password(self, value: str) -> None:
+        if not value.strip():
+            raise ValueError("Password can't be null")
         self._password = value
