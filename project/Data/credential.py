@@ -38,16 +38,16 @@ class Credential:
     def site(self, value: str) -> None:
         if not value.strip():
             raise ValueError("Site can't be null")
-        self._site = value
+        self._site = value.lower()
 
     @username.setter
     def username(self, value: str) -> None:
         if not value.strip():
             raise ValueError("Username can't be null")
-        self._username = value
+        self._username = value.strip()
 
     @password.setter
     def password(self, value: str) -> None:
         if not value.strip():
             raise ValueError("Password can't be null")
-        self._password = value
+        self._password = value.strip()
