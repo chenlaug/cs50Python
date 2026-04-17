@@ -2,67 +2,87 @@
 
 ## Video Demo: <URL HERE>
 
-## Description:
+## Description
 
-    This project is a secure password manager developed in Python. It enables users to safely store, retrieve, add, update, and delete credentials (including website, username, and password) using encryption. The program runs in a command-line interface with a user-friendly menu, enhanced by colored output and tabular formatting for better readability.
+PyCryptBox is a secure command-line password manager written in Python. It lets you store, retrieve, update, and delete credentials (site, username, password) with real encryption. Access to the application is protected by a master password, and all stored passwords are encrypted with Fernet symmetric encryption.
 
-## Features:
+## Features
 
-- 🔐 Add new credentials (site, username, password)
-- 🔍 Search credentials by site name
-- 🗑️ Delete credentials from the list
-- 🧠 Encrypt and decrypt passwords using the `cryptography` library
-- 📋 Display credentials in a clean table format using `tabulate`
-- 🛠️ Update existing credentials (site, username, or password)
-- 🌈 Colorful terminal interface with `colorama`
+- 🔑 Master password protection at startup (PBKDF2-HMAC-SHA256, 3 attempts max)
+- 🔐 Add credentials — password is encrypted before storage
+- 🔍 Search a credential by site name
+- 👁️ View a credential with its decrypted password
+- 🗑️ Delete a credential
+- 🛠️ Update an existing credential (site, username, or password)
+- 📋 List all credentials in a formatted table
+- 🌈 Colored terminal interface with `colorama`
+- 💾 Credentials persisted to `passwords.json`
 
-## Project Structure:
+## Project Structure
 
 ```
-├── Data
-│   ├── color_enum.py
-│   ├── credential.py
-│   ├── password_manager.py
-│   ├── test_ColorEnum.py
+project/
+├── Data/
+│   ├── __init__.py
+│   ├── colorManager.py        # Color enum and ColorManager class
+│   ├── credential.py          # Credential class with validation
+│   ├── menu.py                # Menu class — CLI logic and master password
+│   ├── password_manager.py    # PasswordManager — encryption and persistence
+│   ├── test_ColorManager.py
+│   ├── test_Credential.py
+│   ├── test_menu.py
 │   └── test_PaswordManager.py
-├── project.py
+├── project.py                 # Entry point
 ├── test_project.py
-├── README.md
 ├── requirements.txt
-├── key.key
-└── passwords.json
-
-1 Directory, 11 files
+├── README.md
+├── key.key                    # Generated on first run
+├── master.hash                # Generated on first run
+└── passwords.json             # Generated on first run
 ```
 
-## Why these Choices ?
+## How It Works
 
-- `cryptography` ensures secure and industry-standard encryption.
-- `colorama` improves the user experience with colored CLI feedback.
-- `tabulate` displays credentials in a readable table format.
-- Using classes and separation of concerns makes the code modular and maintainable.
-- Tests ensure reliability and catch regressions early.
+On the **first run**, the app asks you to set a master password. It hashes it with PBKDF2-HMAC-SHA256 (random 16-byte salt, 100 000 iterations) and stores the result in `master.hash`.
 
-## Installation:
+On every subsequent run, you have **3 attempts** to enter the correct master password. After 3 failures, the app exits.
+
+Passwords are encrypted with **Fernet** (AES-128-CBC + HMAC). The encryption key is stored in `key.key` and never leaves your machine.
+
+## Why These Choices
+
+- `cryptography` (Fernet) — industry-standard symmetric encryption, simple and secure.
+- `hashlib.pbkdf2_hmac` — standard library, no extra dependency, solid for password hashing.
+- `colorama` — colored CLI feedback without complexity.
+- `tabulate` — readable table display for credential lists.
+- Class-based architecture (`Credential`, `PasswordManager`, `Menu`, `ColorManager`) — each class has a single responsibility, easy to test independently.
+
+## Installation
 
 ```bash
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-## Run the Program:
+## Run the Program
 
 ```bash
-    python project.py
+python project.py
 ```
 
-## Run tests:
+## Run Tests
 
 ```bash
-    pytest
+pytest
 ```
 
-## Author:
+With coverage:
+
+```bash
+pytest --cov=Data --cov=project
+```
+
+## Author
 
 - [Laughan Chenevot](https://github.com/chenlaug)
 - [GitHub Repository](https://github.com/chenlaug/cs50Python)
-- [LinkedIn Profile](https://www.linkedin.com/in/laughan-chenevot/)
+- [LinkedIn](https://www.linkedin.com/in/laughan-chenevot/)
