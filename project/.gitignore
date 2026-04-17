@@ -1,5 +1,6 @@
 # Clé de chiffrement
 key.key
+/master.hash
 
 # Données sensibles
 passwords.json
